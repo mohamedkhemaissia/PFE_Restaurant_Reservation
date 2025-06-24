@@ -1,26 +1,56 @@
+<?php require_once("../config/database.php") ?>
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>Commander des plats</title>
+    <title>Commander des pizzas</title>
     <link rel="stylesheet" href="../public/style.css">
 </head>
+
 <body>
-    <h1>Commander des plats</h1>
+    <h1>Commander une pizza</h1>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nom = htmlspecialchars($_POST["nom"]);
+        $taille = htmlspecialchars($_POST["taille"]);
+        $quantite = (int)$_POST["quantite"];
+
+        $sql = "INSERT INTO commandes(nom, taille,quantite) values(?,?,?)";
+        $stmt = $pdo->prepare($sql);
+        if ($stmt->execute([$nom, $taille, $quantite])) {
+            echo "<p style='color:green;'>Votre commande a bien été enregistrée !</p>";
+        } else {
+            echo "<p style='color:red;'>Erreur lors de l'enregistrement.</p>";
+        }
+    }
+    ?>
+
     <form method="post" action="">
-        <label>Plat :</label>
-        <select name="plat">
-            <option value="pizza">Pizza</option>
-            <option value="pasta">Pâtes</option>
-            <option value="salad">Salade</option>
-        </select>
+        <label>Pizza :</label>
+        <select name="nom" required>
+            <option value="Margherita">Margherita</option>
+            <option value="Reine">Reine</option>
+            <option value="4 Fromages">4 Fromages</option>
+       </select>
         <br><br>
         <label>Quantité :</label>
-        <input type="number" name="quantite" min="1" value="1">
+        <input type="number" name="quantite" min="1" value="1" required>
         <br><br>
+                   <label>Taille :</label>
+
+          <select name="taille" required>
+            <option value="petite">petite</option>
+            <option value="moyenne">moyenne</option>
+            <option value="grande">grande</option>
+       </select>
+
         <input type="submit" value="Commander">
     </form>
     <br>
     <a href="index.php">Retour à l'accueil</a>
 </body>
+
 </html>
