@@ -24,10 +24,11 @@ if (!isset($_SESSION["user_id"])) {
         $nom = htmlspecialchars($_POST["nom"]);
         $taille = htmlspecialchars($_POST["taille"]);
         $quantite = (int)$_POST["quantite"];
+         $user_id = $_SESSION["user_id"]; 
 
-        $sql = "INSERT INTO commandes(nom, taille,quantite) values(?,?,?)";
+        $sql = "INSERT INTO commandes(nom, taille,quantite,user_id) values(?,?,?,?)";
         $stmt = $pdo->prepare($sql);
-        if ($stmt->execute([$nom, $taille, $quantite])) {
+        if ($stmt->execute([$nom, $taille, $quantite, $user_id])) {
             echo "<p style='color:green;'>Votre commande a bien été enregistrée !</p>";
         } else {
             echo "<p style='color:red;'>Erreur lors de l'enregistrement.</p>";
