@@ -1,4 +1,13 @@
 <?php require_once("../config/database.php") ?>
+<?php include("navbar.php"); ?>
+
+<?php
+session_start();
+if (!isset($_SESSION["user_id"])) {
+    header("Location: connexion.php");
+    exit;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -29,6 +38,7 @@
         echo "<p style='color:red;'>Erreur lors de l'enregistrement.</p>";}
         }
     ?>
+    
     <form method="post" action="">
         <label>Nom :</label>
         <input type="text" name="nom" required>
